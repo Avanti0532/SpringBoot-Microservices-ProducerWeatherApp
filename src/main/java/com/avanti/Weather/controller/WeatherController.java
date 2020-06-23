@@ -3,6 +3,7 @@ package com.avanti.Weather.controller;
 import com.avanti.Weather.model.Weather;
 import com.avanti.Weather.model.WeatherAlert;
 import com.avanti.Weather.service.WeatherService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -35,7 +36,7 @@ public class WeatherController {
             @ApiResponse(code = 200, message = "Ok"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    public boolean postWeather(@RequestBody Weather weather){
+    public boolean postWeather(@RequestBody Weather weather) throws JsonProcessingException {
         return service.postWeather(weather);
     }
 
