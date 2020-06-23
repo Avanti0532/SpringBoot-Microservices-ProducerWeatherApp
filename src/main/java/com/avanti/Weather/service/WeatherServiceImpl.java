@@ -29,7 +29,6 @@ public class WeatherServiceImpl implements WeatherService {
 
     @Override
     public Boolean postWeather(Weather weather) throws JsonProcessingException {
-        System.out.println(weather);
         if(weather.getTemperature() > 25){
             WeatherAlert weatherAlert = new WeatherAlert("Too Hot", weather);
             String message = objectMapper.writeValueAsString(weatherAlert);
