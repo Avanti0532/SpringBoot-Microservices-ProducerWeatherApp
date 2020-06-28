@@ -13,33 +13,38 @@ import java.util.List;
 @Service
 public class WeatherServiceImpl implements WeatherService {
 
-    @Autowired
-    private RestTemplate restTemplate;
+//    @Autowired
+//    private RestTemplate restTemplate;
 
-    @Autowired
     private WeatherAlertsSns weatherAlertsSns;
 
-    @Autowired
     private ObjectMapper objectMapper;
+
+    public WeatherServiceImpl(WeatherAlertsSns weatherAlertsSns, ObjectMapper objectMapper){
+        this.weatherAlertsSns = weatherAlertsSns;
+        this.objectMapper = objectMapper;
+    }
 
     @Override
     public List<WeatherAlert> getWeatherSorted() {
-        return restTemplate.getForObject("http://localhost:8083/getAlerts",List.class);
+        //return restTemplate.getForObject("http://localhost:8083/getAlerts",List.class);
+        return null;
     }
 
     @Override
     public Boolean postWeather(Weather weather) throws JsonProcessingException {
+        WeatherAlert weatherAlert = null;
         if(weather.getTemperature() > 25){
-            WeatherAlert weatherAlert = new WeatherAlert("Too Hot", weather);
+            weatherAlert = new WeatherAlert("Too Hot", weather);
             String message = objectMapper.writeValueAsString(weatherAlert);
             weatherAlertsSns.send("Temperature Alert", message);
         }
 
         if(weather.getWind().getSpeed() > 6){
-            WeatherAlert weatherAlert = new WeatherAlert("Too Windy", weather);
+            weatherAlert = new WeatherAlert("Too Windy", weather);
             String message = objectMapper.writeValueAsString(weatherAlert);
             weatherAlertsSns.send("Wind Alert", message);
         }
-        return true;
+        return weatherAlert!=null;
     }
 }
