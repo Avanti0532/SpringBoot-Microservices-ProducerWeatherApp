@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -34,8 +35,8 @@ public class WeatherServiceImplTest {
 
     @Test
     public void postWeatherTemperature() throws JsonProcessingException {
+        Mockito.when(objectMapper.writeValueAsString(ArgumentMatchers.any(WeatherAlert.class))).thenReturn("Hello World");
         boolean b = weatherServiceimpl.postWeather(GetWeatherObject.getWeatherObjectTemp());
-        Mockito.lenient().when(objectMapper.writeValueAsString(Matchers.any(WeatherAlert.class))).thenReturn("Hello World");
         Assert.assertEquals(b, true);
     }
 
